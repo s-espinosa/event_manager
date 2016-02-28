@@ -8,6 +8,23 @@ def clean_zipcode(zipcode)
   zipcode = zipcode.to_s.rjust(5,"0")[0..4]
 end
 
+def clean_phone(phone)
+  phone = phone.to_s.gsub(/\D/, "")
+  phone = phone[1..10] if phone.length == 11 && phone[0] == "1"
+  phone = nil unless phone.length == 10
+  phone
+end
+
+def registration_time(full_date)
+  date_with_time = DateTime.strptime(full_date, "%m/%d/%y %H:%M")
+  date_with_time.hour
+end
+
+def registration_day(full_date)
+  date_with_time = DateTime.strptime(full_date, "%m/%d/%y %H:%M")
+  date_with_time.wday
+end
+
 def legislators_by_zipcode(zipcode)
   legislators = Sunlight::Congress::Legislator.by_zipcode(zipcode)
 end
